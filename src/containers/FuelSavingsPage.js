@@ -2,9 +2,11 @@ import React, {PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import * as actions from '../actions/fuelSavingsActions';
+import * as peopleActions from '../actions/peopleActions';
 import FuelSavingsForm from '../components/FuelSavingsForm';
 
 export const FuelSavingsPage = (props) => {
+  props.actions.getPerson("jkhjkhkjh");
   return (
     <FuelSavingsForm
       saveFuelSavings={props.actions.saveFuelSavings}
@@ -27,7 +29,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators(actions, dispatch)
+    actions: bindActionCreators(Object.assign({},actions,peopleActions), dispatch)
   };
 }
 

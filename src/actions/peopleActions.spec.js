@@ -6,9 +6,11 @@ import sinonChai from 'sinon-chai';
 import MockDate from 'mockdate';
 import chai, { expect } from 'chai';
 
-import nock from 'nock' //for mocking http requests
+// import nock from 'nock'; //for mocking http requests
 
 import dateHelper from '../utils/dateHelper';
+
+import fetch from 'isomorphic-fetch';
 
 chai.use(sinonChai);
 

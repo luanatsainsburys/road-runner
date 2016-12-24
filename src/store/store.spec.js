@@ -9,6 +9,9 @@ import dateHelper from '../utils/dateHelper';
 import initialState from '../reducers/initialState';
 import rootReducer from '../reducers';
 
+import {normalize} from 'normalizr';
+import * as schema from '../actions/schema';
+
 describe('Store', () => {
   let dateModified;
   before(() => {
@@ -16,6 +19,46 @@ describe('Store', () => {
     dateModified = dateHelper.getFormattedDateTime();
   });
   after(() => MockDate.reset());
+
+  
+  it('should handle SAVE_PERSON action', () => {
+    const store = createStore(rootReducer, initialState);
+
+    const serverResponse = {"@odata.context":"http://services.odata.org/TripPinRESTierService/(S(22d2qys54io3bbej0tmg2lnr))/$metadata#People/$entity","UserName":"russellwhyte","FirstName":"Russell","LastName":"Whyte","MiddleName":null,"Gender":"Male","Age":null,"Emails":["Russell@example.com","Russell@contoso.com"],"FavoriteFeature":"Feature1","Features":["Feature1","Feature2"],"AddressInfo":[{"Address":"187 Suffolk Ln.","City":{"Name":"Boise","CountryRegion":"United States","Region":"ID"}}],"HomeAddress":null};
+
+    const action = { type: ActionTypes.SAVE_PERSON, response: normalize(serverResponse, schema.person)};
+
+    store.dispatch(action);
+
+    const actual = store.getState();
+
+    const expected = {
+      "russellwhyte": {
+        "@odata.context": "http://services.odata.org/TripPinRESTierService/(S(22d2qys54io3bbej0tmg2lnr))/$metadata#People/$entity",
+        "UserName": "russellwhyte",
+        "FirstName": "Russell",
+        "LastName": "Whyte",
+        "MiddleName": null,
+        "Gender": "Male",
+        "Age": null,
+        "Emails": [
+          "Russell@example.com",
+          "Russell@contoso.com"
+        ],
+        "FavoriteFeature": "Feature1",
+        "Features": [
+          "Feature1",
+          "Feature2"
+        ],
+        "AddressInfo": [
+          "187 Suffolk Ln."
+        ],
+        "HomeAddress": null
+      }
+    };
+    // const test = JSON.parse(expected);
+    expect(actual.people).to.deep.equal(expected);
+  });
 
   it('should display results when necessary data is provided', () => {
     const store = createStore(rootReducer, initialState);

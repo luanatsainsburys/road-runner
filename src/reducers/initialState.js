@@ -1,4 +1,5 @@
 export default {
+  address: {},
   people: {},
   fuelSavings: {
     newMpg: '',

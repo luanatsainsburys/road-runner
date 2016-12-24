@@ -10,6 +10,7 @@ import initialState from './initialState';
 // and update values on the copy.
 export default function peopleReducer(state = initialState.people, action) {
   if (action.response) {
+//      return Object.assign({}, state, action.response.entities.people);
       return Object.assign({}, state, action.response.entities.people);
   }
 

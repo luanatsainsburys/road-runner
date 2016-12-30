@@ -4,15 +4,27 @@ import {bindActionCreators} from 'redux';
 import * as actions from '../actions/fuelSavingsActions';
 import * as peopleActions from '../actions/peopleActions';
 import FuelSavingsForm from '../components/FuelSavingsForm';
+import PersonForm from '../components/PersonForm';
 
+const showResults = values =>
+  new Promise(resolve => {
+    setTimeout(() => {  // simulate server latency
+      window.alert(`You submitted:\n\n${JSON.stringify(values, null, 2)}`)
+      resolve()
+    }, 500)
+  })
+  
 export const FuelSavingsPage = (props) => {
   props.actions.getPerson("jkhjkhkjh");
   return (
+    <div>
     <FuelSavingsForm
       saveFuelSavings={props.actions.saveFuelSavings}
       calculateFuelSavings={props.actions.calculateFuelSavings}
       fuelSavings={props.fuelSavings}
     />
+    <PersonForm onSubmit={showResults}/>
+    </div>
   );
 };
 

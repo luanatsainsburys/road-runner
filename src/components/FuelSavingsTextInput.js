@@ -5,12 +5,17 @@ const FuelSavingsTextInput = (props) => {
     props.onChange(props.name, e.target.value);
   };
 
+  const handleBlur = (e) => {
+    props.onBlur(props.name, e.target.value);
+  };
+
   return (
     <input
-      className="small"
+      className="col-sm-2"
       type="text"
       placeholder={props.placeholder}
       value={props.value}
+      onBlur={handleBlur}
       onChange={handleChange}/>
   );
 };
@@ -18,6 +23,7 @@ const FuelSavingsTextInput = (props) => {
 FuelSavingsTextInput.propTypes = {
   name: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
+  onBlur: PropTypes.func,
   placeholder: PropTypes.string,
   value: PropTypes.oneOfType([
     PropTypes.string,

@@ -17,7 +17,7 @@ const showResults = values =>
 export const FuelSavingsPage = (props) => {
   props.actions.getPerson("jkhjkhkjh");
   return (
-    <div>
+    <div className="container-fluid">
     <FuelSavingsForm
       saveFuelSavings={props.actions.saveFuelSavings}
       calculateFuelSavings={props.actions.calculateFuelSavings}

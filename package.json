@@ -30,6 +30,7 @@
   "author": "Cory House",
   "license": "MIT",
   "dependencies": {
+    "bootstrap": "3.3.7",
     "es6-promise": "4.0.5",
     "isomorphic-fetch": "2.2.1",
     "normalizr": "2.3.1",

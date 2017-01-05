@@ -1,15 +1,15 @@
 import React, {Component} from 'react';
-import { connect } from 'react-redux'
-import { Field, reduxForm } from 'redux-form'
+import { connect } from 'react-redux';
+import { Field, reduxForm } from 'redux-form';
 
 const renderField = field => (
-    <div>
-      <input {...field.input}/>
+    <div className="col-sm-4">
+      <input {...field.input} className="form-control"/>
       {field.touched && field.error && <div className="error">{field.error}</div>}
     </div>
 );
 
-class PersonForm extends Component {
+let PersonForm = class extends Component {
     componentDidMount() {
         this.handleInitialize();
     }
@@ -33,26 +33,33 @@ class PersonForm extends Component {
     }
 
     render() {
+        const inputWidth = {"className": "col-sm-4"};
         return (
             <div>
-                <form onSubmit={this.props.handleSubmit(this.handleFormSubmit.bind(this))}>
-                    <label>First Name:</label>
-                    <Field name="FirstName" type="text" component={renderField}/>
-
-                    <label>Last Name:</label>
-                    <Field name="LastName" type="text" component={renderField}/>
-
-                    <label>Middle Name:</label>
-                    <Field name="MiddleName" type="text" component={renderField}/>
-<div className="form-group">
-                    <label>Gender:</label>
-                    <Field name="Gender" component="select" className="form-control">
-                        <option></option>
-                        <option name="Male">Male</option>
-                        <option name="Female">Female</option>
-                    </Field>
-</div>
-                    <button action="submit">Save changes</button>
+                <form onSubmit={this.props.handleSubmit(this.handleFormSubmit.bind(this))} className="form-horizontal">
+                    <div className="form-group">
+                        <label className="col-sm-2 control-label" htmlFor="FirstName">First Name:</label>
+                        <Field name="FirstName" type="text" component={renderField}/>
+                    </div>
+                    <div className="form-group">
+                        <label className="col-sm-2 control-label" htmlFor="LastName">Last Name:</label>
+                        <Field name="LastName" type="text" component={renderField}/>
+                    </div>
+                    <div className="form-group">
+                        <label className="col-sm-2 control-label">Middle Name:</label>
+                        <Field props={inputWidth} name="MiddleName" type="text" component={renderField}/>
+                    </div>
+                    <div className="form-group">
+                        <label className="col-sm-2 control-label">Gender:</label>
+                        <div className="col-sm-4">
+                            <Field name="Gender" component="select" className="form-control">
+                                <option></option>
+                                <option name="Male">Male</option>
+                                <option name="Female">Female</option>
+                            </Field>
+                        </div>
+                    </div>
+                    <button action="submit" className="btn btn-info col-sm-offset-2">Save changes</button>
                 </form>
             </div>
         );

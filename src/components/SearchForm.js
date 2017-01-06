@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, PropTypes} from 'react';
 
 export default class SearchForm extends Component {
   constructor(props) {
@@ -14,6 +14,7 @@ export default class SearchForm extends Component {
   }
 
   handleSubmit(event) {
+    this.props.onNewData(this.state.value);
     alert('A name was submitted: ' + this.state.value);
     event.preventDefault();
   }

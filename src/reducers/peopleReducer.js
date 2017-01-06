@@ -16,3 +16,8 @@ export default function peopleReducer(state = initialState.people, action) {
 
   return state;
 }
+
+//Returns empty object if not found
+export function getCurrentPerson (state, userName) {
+  return Object.assign({}, state.people[userName]);
+}

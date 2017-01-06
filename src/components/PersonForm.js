@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';
 
+
 const renderField = field => (
     <div className="col-sm-4">
       <input {...field.input} className="form-control"/>
@@ -46,11 +47,11 @@ let PersonForm = class extends Component {
                         <Field name="LastName" type="text" component={renderField}/>
                     </div>
                     <div className="form-group">
-                        <label className="col-sm-2 control-label">Middle Name:</label>
+                        <label className="col-sm-2 control-label" htmlFor="MiddleName">Middle Name:</label>
                         <Field props={inputWidth} name="MiddleName" type="text" component={renderField}/>
                     </div>
                     <div className="form-group">
-                        <label className="col-sm-2 control-label">Gender:</label>
+                        <label className="col-sm-2 control-label" htmlFor="Gender">Gender:</label>
                         <div className="col-sm-4">
                             <Field name="Gender" component="select" className="form-control">
                                 <option></option>

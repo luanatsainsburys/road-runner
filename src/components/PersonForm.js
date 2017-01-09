@@ -33,6 +33,12 @@ let PersonForm = class extends Component {
         // this.props.submitFormAction(formProps);//
     }
 
+    componentWillReceiveProps(nextProps) {
+        if (this.props.initialValues!==nextProps.initialValues) {
+            this.setState({initialValues: nextProps.initialValues});
+        }
+    }
+    
     render() {
         const inputWidth = {"className": "col-sm-4"};
         return (
@@ -67,11 +73,11 @@ let PersonForm = class extends Component {
     }
 }
 
-function mapStateToProps(state) {
-  return {
-    user: state.people.russellwhyte
-  };
-}
+// function mapStateToProps(state) {
+//   return {
+//     user: state.people.russellwhyte
+//   };
+// }
 
 // Decorate with reduxForm(). It will read the initialValues prop provided by connect()
 PersonForm = reduxForm({
@@ -79,10 +85,10 @@ PersonForm = reduxForm({
 })(PersonForm)
 
 // You have to connect() to any reducers that you wish to connect to yourself
-PersonForm = connect(
-  state => ({
-    initialValues: state.people.russellwhyte // pull initial values from account reducer
-  })
-)(PersonForm)
+// PersonForm = connect(
+//   state => ({
+//     initialValues: state.people.russellwhyte // pull initial values from account reducer
+//   })
+// )(PersonForm)
 
 export default PersonForm;

@@ -15,7 +15,7 @@ export default class SearchForm extends Component {
 
   handleSubmit(event) {
     this.props.onNewData(this.state.value);
-    alert('A name was submitted: ' + this.state.value);
+    //alert('A name was submitted: ' + this.state.value);
     event.preventDefault();
   }
 

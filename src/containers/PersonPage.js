@@ -1,3 +1,4 @@
+import isEmpty from 'lodash/fp/isEmpty';
 import React, {Component, PropTypes} from 'react';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
@@ -8,7 +9,7 @@ import SearchForm from '../components/SearchForm';
 // import FuelSavingsTextInput from '../components/FuelSavingsTextInput';
 import PersonForm from '../components/PersonForm';
 
-import {getCurrentPerson} from '../reducers/peopleReducer';
+// import {getCurrentPerson} from '../reducers/peopleReducer';
 
 const showResults = values =>
   new Promise(resolve => {
@@ -30,11 +31,21 @@ class PersonPage extends Component {
         //Bind to this component
         // this.usernameChanging = this.usernameChanging.bind(this);
         this.userNameChanged = this.userNameChanged.bind(this);
+
+        //Load data if empty
+        if (isEmpty(this.props.people)) {
+          this.props.actions.getPerson("jkhjkhkjh");
+        }
+    }
+
+    //Returns empty object if not found
+    getCurrentPerson (userName) {
+      return Object.assign({}, this.props.people[userName]);
     }
     
     userNameChanged(newUserName) {
       //Get the username person from store to display on PersonForm
-      this.setState({username: newUserName, currentPerson: getCurrentPerson(this.getState(), newUserName)});
+      this.setState({username: newUserName, currentPerson: this.getCurrentPerson(newUserName)});
       event.preventDefault();
     }
 
@@ -43,7 +54,7 @@ class PersonPage extends Component {
             <div className="container-fluid">
                 <div className="form-group">
                     <SearchForm onNewData={this.userNameChanged}/>
-                    {!Object.is(this.state.currentPerson, {}) && <PersonForm onSubmit={showResults}/>}
+                    {!isEmpty(this.state.currentPerson) && <PersonForm onSubmit={showResults} initialValues={this.state.currentPerson}/>}
                 </div>
             </div>
         );

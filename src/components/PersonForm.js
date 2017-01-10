@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';
 
+import {getCurrentPerson} from '../reducers/peopleReducer';
+
 
 const renderField = field => (
     <div className="col-sm-4">
@@ -33,12 +35,14 @@ let PersonForm = class extends Component {
         // this.props.submitFormAction(formProps);//
     }
 
-    componentWillReceiveProps(nextProps) {
-        if (this.props.initialValues!==nextProps.initialValues) {
-            this.setState({initialValues: nextProps.initialValues});
-        }
-    }
-    
+//     componentWillReceiveProps(nextProps) {
+//         if (this.props.initialValues!==nextProps.initialValues) {
+// //            this.props.initialize("Person", nextProps.initialValues, ['FirstName', 'LastName', 'MiddleName', 'Gender']);
+//             this.props.initialize("Person", nextProps.initialValues, false);
+//             this.props.reset("Person");
+//         }
+//     }
+
     render() {
         const inputWidth = {"className": "col-sm-4"};
         return (
@@ -81,14 +85,16 @@ let PersonForm = class extends Component {
 
 // Decorate with reduxForm(). It will read the initialValues prop provided by connect()
 PersonForm = reduxForm({
-  form: 'Person'  // a unique identifier for this form
+  form: 'Person',  // a unique identifier for this form
+//   fields: ['FirstName', 'LastName', 'MiddleName', 'Gender'],
 })(PersonForm)
 
-// You have to connect() to any reducers that you wish to connect to yourself
-// PersonForm = connect(
-//   state => ({
-//     initialValues: state.people.russellwhyte // pull initial values from account reducer
-//   })
-// )(PersonForm)
+//You have to connect() to any reducers that you wish to connect to yourself
+PersonForm = connect(
+  state => ({
+    initialValues: getCurrentPerson(state, state.currentPersonFilter), // pull initial values from account reducer
+    person: getCurrentPerson(state, state.currentPersonFilter),
+  })
+)(PersonForm)
 
 export default PersonForm;

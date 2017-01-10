@@ -1,6 +1,7 @@
 export default {
   address: {},
   people: {},
+  currentPersonFilter: "russellwhyte",
   fuelSavings: {
     newMpg: '',
     tradeMpg: '',

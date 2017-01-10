@@ -11,6 +11,9 @@ import PersonForm from '../components/PersonForm';
 
 // import {getCurrentPerson} from '../reducers/peopleReducer';
 
+import { initialize, reset } from 'redux-form';
+
+
 const showResults = values =>
   new Promise(resolve => {
     setTimeout(() => {  // simulate server latency
@@ -46,6 +49,10 @@ class PersonPage extends Component {
     userNameChanged(newUserName) {
       //Get the username person from store to display on PersonForm
       this.setState({username: newUserName, currentPerson: this.getCurrentPerson(newUserName)});
+      this.props.actions.updatePersonFilter(newUserName);
+
+      initialize('Person', this.getCurrentPerson(newUserName), false);
+      reset('Person');
       event.preventDefault();
     }
 
@@ -54,7 +61,7 @@ class PersonPage extends Component {
             <div className="container-fluid">
                 <div className="form-group">
                     <SearchForm onNewData={this.userNameChanged}/>
-                    {!isEmpty(this.state.currentPerson) && <PersonForm onSubmit={showResults} initialValues={this.state.currentPerson}/>}
+                    <PersonForm onSubmit={showResults} initialValues={this.state.currentPerson}/>
                 </div>
             </div>
         );

@@ -33,3 +33,9 @@ export function savePerson(response) {
   };
 }
 
+export function updatePersonFilter(newFilter) {
+  return {
+    type: types.UPDATE_PERSON_FILTER,
+    filter: newFilter
+  };
+}

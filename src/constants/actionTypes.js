@@ -3,3 +3,6 @@ export const CALCULATE_FUEL_SAVINGS = 'CALCULATE_FUEL_SAVINGS';
 
 export const GET_PERSON = 'GET_PERSON';
 export const SAVE_PERSON = 'SAVE_PERSON';
+
+//Filters
+export const UPDATE_PERSON_FILTER = 'UPDATE_PERSON_FILTER';

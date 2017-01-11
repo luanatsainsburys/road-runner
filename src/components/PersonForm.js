@@ -86,6 +86,7 @@ let PersonForm = class extends Component {
 // Decorate with reduxForm(). It will read the initialValues prop provided by connect()
 PersonForm = reduxForm({
   form: 'Person',  // a unique identifier for this form
+  enableReinitialize: true
 //   fields: ['FirstName', 'LastName', 'MiddleName', 'Gender'],
 })(PersonForm)
 
@@ -93,7 +94,6 @@ PersonForm = reduxForm({
 PersonForm = connect(
   state => ({
     initialValues: getCurrentPerson(state, state.currentPersonFilter), // pull initial values from account reducer
-    person: getCurrentPerson(state, state.currentPersonFilter),
   })
 )(PersonForm)
 

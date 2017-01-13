@@ -51,8 +51,8 @@ class PersonPage extends Component {
       this.setState({username: newUserName, currentPerson: this.getCurrentPerson(newUserName)});
       this.props.actions.updatePersonFilter(newUserName);
 
-      // initialize('Person', this.getCurrentPerson(newUserName), false);
-      // reset('Person');
+      initialize('Person', this.getCurrentPerson(newUserName), false);
+      reset('Person');
       event.preventDefault();
     }
 

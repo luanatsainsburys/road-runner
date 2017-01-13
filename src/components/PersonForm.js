@@ -12,7 +12,8 @@ const renderField = field => (
     </div>
 );
 
-let PersonForm = class extends Component {
+let PersonForm = class RawForm extends Component {
+
     componentDidMount() {
         this.handleInitialize();
     }
@@ -30,8 +31,9 @@ let PersonForm = class extends Component {
     }
 
     handleFormSubmit(formProps) {
+        formProps;
         //We can check the form values here before dispatching an action to update the store
-        const newValues = formProps;
+        // const newValues = formProps;
         // this.props.submitFormAction(formProps);//
     }
 
@@ -64,7 +66,7 @@ let PersonForm = class extends Component {
                         <label className="col-sm-2 control-label" htmlFor="Gender">Gender:</label>
                         <div className="col-sm-4">
                             <Field name="Gender" component="select" className="form-control">
-                                <option></option>
+                                <option/>
                                 <option name="Male">Male</option>
                                 <option name="Female">Female</option>
                             </Field>
@@ -75,7 +77,7 @@ let PersonForm = class extends Component {
             </div>
         );
     }
-}
+};
 
 // function mapStateToProps(state) {
 //   return {
@@ -88,13 +90,13 @@ PersonForm = reduxForm({
   form: 'Person',  // a unique identifier for this form
   enableReinitialize: true
 //   fields: ['FirstName', 'LastName', 'MiddleName', 'Gender'],
-})(PersonForm)
+})(PersonForm);
 
 //You have to connect() to any reducers that you wish to connect to yourself
 PersonForm = connect(
   state => ({
     initialValues: getCurrentPerson(state, state.currentPersonFilter), // pull initial values from account reducer
   })
-)(PersonForm)
+)(PersonForm);
 
 export default PersonForm;

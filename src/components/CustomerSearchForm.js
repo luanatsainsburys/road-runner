@@ -30,6 +30,7 @@ let CustomerSearchForm = class extends Component {
     }
 
     handleFormSubmit(formProps) {
+        formProps;
         //We can check the form values here before dispatching an action to update the store
         // const newValues = formProps;
         // this.props.submitFormAction(formProps);//

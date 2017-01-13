@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
-import { Field, reduxForm } from 'redux-form';
+import { Field, reduxForm, propTypes } from 'redux-form';
 
 import {getCurrentPerson} from '../reducers/peopleReducer';
 
@@ -12,7 +12,12 @@ const renderField = field => (
     </div>
 );
 
-let PersonForm = class RawForm extends Component {
+class PersonForm extends Component {
+
+    static propTypes = {
+        ...propTypes,
+        // other props you might be using
+    }
 
     componentDidMount() {
         this.handleInitialize();
@@ -77,7 +82,7 @@ let PersonForm = class RawForm extends Component {
             </div>
         );
     }
-};
+}
 
 // function mapStateToProps(state) {
 //   return {
@@ -86,17 +91,17 @@ let PersonForm = class RawForm extends Component {
 // }
 
 // Decorate with reduxForm(). It will read the initialValues prop provided by connect()
-PersonForm = reduxForm({
+let boundPersonForm = reduxForm({
   form: 'Person',  // a unique identifier for this form
   enableReinitialize: true
 //   fields: ['FirstName', 'LastName', 'MiddleName', 'Gender'],
 })(PersonForm);
 
 //You have to connect() to any reducers that you wish to connect to yourself
-PersonForm = connect(
+export default connect(
   state => ({
     initialValues: getCurrentPerson(state, state.currentPersonFilter), // pull initial values from account reducer
   })
-)(PersonForm);
+)(boundPersonForm);
 
-export default PersonForm;
+// export default PersonForm;

@@ -5,13 +5,6 @@ import { Field, reduxForm, propTypes } from 'redux-form';
 // import {getCurrentPerson} from '../reducers/peopleReducer';
 
 
-// const renderField = field => (
-//     <div className="">
-//       <input {...field.input} className="form-control"/>
-//       {field.touched && field.error && <span className="error">{field.error}</span>}
-//     </div>
-// );
-
 const renderField = ({ input, label, type, meta: { touched, error } }) => (
   <div>
       <input {...input} placeholder={label} type={type} className="form-control"/>
@@ -19,9 +12,14 @@ const renderField = ({ input, label, type, meta: { touched, error } }) => (
   </div>
 );
 
+renderField.propTypes = {
+    ...propTypes,
+};
+
+//VALIDATIONS
 const maxLength = max => value =>
-  value && value.length > max ? `Must be ${max} characters or less` : undefined
-const maxLength14 = maxLength(14)
+  value && value.length > max ? `Must be ${max} characters or less` : undefined;
+const maxLength14 = maxLength(14);
 
 const validate = values => {
     const errors = {};

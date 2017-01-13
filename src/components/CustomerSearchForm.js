@@ -1,18 +1,44 @@
 import React, {Component} from 'react';
 // import { connect } from 'react-redux';
-import { Field, reduxForm } from 'redux-form';
+import { Field, reduxForm, propTypes } from 'redux-form';
 
 // import {getCurrentPerson} from '../reducers/peopleReducer';
 
 
-const renderField = field => (
-    <div className="">
-      <input {...field.input} className="form-control"/>
-      {field.touched && field.error && <div className="error">{field.error}</div>}
-    </div>
+// const renderField = field => (
+//     <div className="">
+//       <input {...field.input} className="form-control"/>
+//       {field.touched && field.error && <span className="error">{field.error}</span>}
+//     </div>
+// );
+
+const renderField = ({ input, label, type, meta: { touched, error } }) => (
+  <div>
+      <input {...input} placeholder={label} type={type} className="form-control"/>
+      {touched && (error && <span className="error">{error}</span>)}
+  </div>
 );
 
-let CustomerSearchForm = class extends Component {
+const maxLength = max => value =>
+  value && value.length > max ? `Must be ${max} characters or less` : undefined
+const maxLength14 = maxLength(14)
+
+const validate = values => {
+    const errors = {};
+    if (!values.ecid) {
+        errors.ecid = 'Required';
+    } else if (!/^\d{14}$/.test(values.ecid)) {
+        errors.ecid = 'ECID must be a string of 14 digits characters';
+    }
+    return errors;
+};
+
+class CustomerSearchForm extends Component {
+    static propTypes = {
+        ...propTypes,
+        // other props you might be using
+    }
+
     componentDidMount() {
         this.handleInitialize();
     }
@@ -36,13 +62,15 @@ let CustomerSearchForm = class extends Component {
         // this.props.submitFormAction(formProps);//
     }
 
+
+
     render() {
         return (
             <div className="col-sm-4 col-sm-offset-4">
-                <form onSubmit={this.props.handleSubmit(this.handleFormSubmit.bind(this))} className="form-horizontal">
+                <form onSubmit={this.props.handleSubmit} className="form-horizontal">
                     <div className="form-group">
                         <label className="h3">Search customer by ECID</label>
-                        <Field name="ecid" type="text" component={renderField}/>
+                        <Field name="ecid" type="text" component={renderField} label="ECID" validate={[ maxLength14 ]}/>
                         <br/>
                         <button action="submit" className="btn btn-danger">Search</button>
                     </div>
@@ -50,12 +78,11 @@ let CustomerSearchForm = class extends Component {
             </div>
         );
     }
-};
+}
 
 // Decorate with reduxForm(). It will read the initialValues prop provided by connect()
-CustomerSearchForm = reduxForm({
+export default reduxForm({
   form: 'CustomerSearchForm',  // a unique identifier for this form
+  validate,
 //   enableReinitialize: true
 })(CustomerSearchForm);
-
-export default CustomerSearchForm;

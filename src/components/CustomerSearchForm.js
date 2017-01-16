@@ -1,3 +1,5 @@
+/* eslint-disable react/prop-types */
+
 import React, {Component} from 'react';
 // import { connect } from 'react-redux';
 import { Field, reduxForm, propTypes } from 'redux-form';
@@ -12,14 +14,19 @@ const renderField = ({ input, label, type, meta: { touched, error } }) => (
   </div>
 );
 
-renderField.propTypes = {
-    ...propTypes,
-};
+// renderField.propTypes = {
+//     ...propTypes,
+// };
+
 
 //VALIDATIONS
 const maxLength = max => value =>
   value && value.length > max ? `Must be ${max} characters or less` : undefined;
 const maxLength14 = maxLength(14);
+
+const digitsOnly = max => value =>
+  value && (!/^\d{max}$/.test(value)) ? `Must exactly ${max} digits` : undefined;
+const digitsOnly14 = digitsOnly(14);
 
 const validate = values => {
     const errors = {};
@@ -68,7 +75,7 @@ class CustomerSearchForm extends Component {
                 <form onSubmit={this.props.handleSubmit} className="form-horizontal">
                     <div className="form-group">
                         <label className="h3">Search customer by ECID</label>
-                        <Field name="ecid" type="text" component={renderField} label="ECID" validate={[ maxLength14 ]}/>
+                        <Field name="ecid" type="text" component={renderField} label="ECID" validate={[ maxLength14, digitsOnly14 ]}/>
                         <br/>
                         <button action="submit" className="btn btn-danger">Search</button>
                     </div>
@@ -81,6 +88,6 @@ class CustomerSearchForm extends Component {
 // Decorate with reduxForm(). It will read the initialValues prop provided by connect()
 export default reduxForm({
   form: 'CustomerSearchForm',  // a unique identifier for this form
-  validate,
+  //validate,
 //   enableReinitialize: true
 })(CustomerSearchForm);

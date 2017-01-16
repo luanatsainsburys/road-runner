@@ -1,75 +1,85 @@
 // customers.js
+import Immutable from 'immutable';
+import initialState from '../../reducers/initialState';
 
 // Actions
-const LOAD   = 'road-runner/customers/LOAD';
-const CREATE = 'road-runner/customers/CREATE';
-const UPDATE = 'road-runner/customers/UPDATE';
-const REMOVE = 'road-runner/customers/REMOVE';
-const LOADING = 'road-runner/customers/LOADING';
+const LOAD   = 'road-runner/person/LOAD';
+const CREATE = 'road-runner/person/CREATE';
+const UPDATE = 'road-runner/person/UPDATE';
+const REMOVE = 'road-runner/person/REMOVE';
+//const LOADING = 'road-runner/person/LOADING';
 
 // Reducer
-export default function reducer(state = {}, action = {}) {
-  switch (action.type) {
-    // do reducer stuff
-    default: return state;
-  }
+export default function reducer(state = initialState.get('person'), action = {}) {
+    switch (action.type) {
+        case LOAD:
+            return Immutable.fromJS(action.person);//Plain js object from server
+
+        case UPDATE:
+            return action.person;//Already immutable type
+
+        // do reducer stuff
+        default: return state;
+    }
 }
 
 // Action Creators
-export function loadWidgets() {
-  return { type: LOAD };
+
+function fetchPersonFromServer() {
+  return fetch("http://devtlnx0157.stbc2.jstest2.net:15100/v2/customer-profiles/50000007797810?type=ecid");
 }
 
-export function createWidget(widget) {
-  return { type: CREATE, widget };
+export function loadPerson(name) {
+
+  // Invert control!
+  // Return a function that accepts `dispatch` so we can dispatch later.
+  // Thunk middleware knows how to turn thunk async actions into actions.
+
+  return function (dispatch) {
+    return fetchPersonFromServer().then(
+      response => response.json().then(
+          person=>dispatch(
+              updatePerson(Immutable.fromJS(person)))),
+      error => console.log('Error:'+error+' getting person ' + name)
+    );
+  };
 }
 
-export function updateWidget(widget) {
-  return { type: UPDATE, widget };
+// export function loadPerson() {
+//   return { type: LOAD };
+// }
+
+export function createPerson(person) {
+  return { type: CREATE, person };
 }
 
-export function removeWidget(widget) {
-  return { type: REMOVE, widget };
+export function updatePerson(person) {
+  return { type: UPDATE, person };
 }
 
-export function dataIsLoading(boolValue) {
-  return { type: LOADING, boolValue };
+export function removePerson(person) {
+  return { type: REMOVE, person };
 }
 
-/////
-
-export function itemsHasErrored(bool) {
-    return {
-        type: 'ITEMS_HAS_ERRORED',
-        hasErrored: bool
-    };
-}
-export function itemsIsLoading(bool) {
-    return {
-        type: 'ITEMS_IS_LOADING',
-        isLoading: bool
-    };
-}
-export function itemsFetchDataSuccess(items) {
-    return {
-        type: 'ITEMS_FETCH_DATA_SUCCESS',
-        items
-    };
+//Selectors
+export function getPerson (state) {
+  return state.get("person");
 }
 
-export function searchCustomer(url) {
-    return (dispatch) => {
-        dispatch(dataIsLoading(true));
-        fetch(url)
-            .then((response) => {
-                if (!response.ok) {
-                    throw Error(response.statusText);
-                }
-                dispatch(dataIsLoading(false));
-                return response;
-            })
-            .then((response) => response.json())
-            .then((items) => dispatch(itemsFetchDataSuccess(items)))
-            .catch(() => dispatch(itemsHasErrored(true)));
-    };
-}
+
+// export function searchCustomer(url) {
+//     return (dispatch) => {
+//         dispatch(dataIsLoading(true));
+//         fetch(url)
+//             .then((response) => {
+//                 if (!response.ok) {
+//                     throw Error(response.statusText);
+//                 }
+//                 dispatch(dataIsLoading(false));
+//                 return response;
+//             })
+//             .then((response) => response.json())
+//             .then((items) => dispatch(itemsFetchDataSuccess(items)))
+//             .catch(() => dispatch(itemsHasErrored(true)));
+//     };
+// }

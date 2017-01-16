@@ -2,7 +2,7 @@
 
 import React, {Component} from 'react';
 // import { connect } from 'react-redux';
-import { Field, reduxForm, propTypes } from 'redux-form';
+import { Field, reduxForm, propTypes } from 'redux-form/immutable';
 
 // import {getCurrentPerson} from '../reducers/peopleReducer';
 

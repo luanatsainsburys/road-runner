@@ -1,10 +1,11 @@
 import React from 'react';
 import DataGridBasic from './DataGridBasic';
+import CustomerDataGrid from './CustomerDataGrid';
 
 const DataGridPage = () => {
     return (
         <div>
-            <DataGridBasic/>
+            <CustomerDataGrid/>
         </div>
         );
     };

@@ -1,8 +1,8 @@
-import React from 'react';
+import React, {Component} from 'react';
 import ReactDataGrid from 'react-data-grid';
 import capitalize from 'lodash/capitalize';
 
-import northwindCustomerData from '../reducers/northwindCustomerData';
+import northWindCustomerData from '../reducers/northWindCustomerData';
 
 const colNames = [
    "id",
@@ -25,29 +25,27 @@ const colNames = [
    "attachments"
 ];
 
-const CustomerDataGrid = React.createClass({
-  getInitialState() {
-    this.createRows();
+export default class CustomerDataGrid extends Component {
+  constructor() {
+    super();
+    this._rows = northWindCustomerData;
     this._columns = colNames.map((x) => {return {key: x, name: capitalize(x)};});
-    return null;
-  },
 
-  createRows() {
-    this._rows = northwindCustomerData;
-  },
+    //Bind methods to class instance
+    this.rowGetter = this.rowGetter.bind(this); 
+  }
 
   rowGetter(i) {
     return this._rows[i];
-  },
+  }
 
   render() {
-    return  (
+    return (
       <ReactDataGrid
         columns={this._columns}
         rowGetter={this.rowGetter}
         rowsCount={this._rows.length}
-        minHeight={500} />);
+        minHeight={500} />
+    );
   }
-});
-
-export default CustomerDataGrid;
+}

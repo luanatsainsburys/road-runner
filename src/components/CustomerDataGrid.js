@@ -1,10 +1,10 @@
 import React from 'react';
 import ReactDataGrid from 'react-data-grid';
-import capitalize from 'lodash';
+import capitalize from 'lodash/capitalize';
 
 import northwindCustomerData from '../reducers/northwindCustomerData';
 
-var colNames = [
+const colNames = [
    "id",
    "company",
    "last_name",
@@ -25,25 +25,14 @@ var colNames = [
    "attachments"
 ];
 
-var makeColSpec = (x) => ({key: x, name: capitalize(x)});
-
 const CustomerDataGrid = React.createClass({
   getInitialState() {
     this.createRows();
-    this._columns = colNames.map((x) => {return {key: x, name: _.capitalize(x)}});
+    this._columns = colNames.map((x) => {return {key: x, name: capitalize(x)};});
     return null;
   },
 
   createRows() {
-    // let rows = [];
-    // for (let i = 1; i < 1000; i++) {
-    //   rows.push({
-    //     id: i,
-    //     title: 'Title ' + i,
-    //     count: i * 1000
-    //   });
-    // }
-
     this._rows = northwindCustomerData;
   },
 
@@ -62,11 +51,3 @@ const CustomerDataGrid = React.createClass({
 });
 
 export default CustomerDataGrid;
-
-// module.exports = exampleWrapper({
-//   WrappedComponent: Example,
-//   exampleName: 'Basic Example',
-//   exampleDescription: 'A display only grid.',
-//   examplePath: './scripts/example01-basic.js',
-//   examplePlaygroundLink: 'https://jsfiddle.net/f6mbnb8z/1/'
-// });
